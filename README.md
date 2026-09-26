@@ -6,6 +6,8 @@ final submission ZIP without external entity lookup.
 
 ## Start here
 
+- [`CURRENT_STATUS.md`](CURRENT_STATUS.md) — what is implemented, measured evidence,
+  constraints encountered, and the exact remaining work. Read this first.
 - [`RUN_ON_MAC.md`](RUN_ON_MAC.md) — exact setup, execution, validation, interpretation,
   and submission steps for an Apple Silicon Mac with 16 GB RAM.
 - [`AGENT_PROMPT.md`](AGENT_PROMPT.md) — a detailed copy-paste prompt for an autonomous
@@ -34,4 +36,3 @@ Successful completion creates:
 
 Do not commit or publish the supplied datasets, generated work database, predictions, or
 submission ZIP. The `.gitignore` already excludes them.
-

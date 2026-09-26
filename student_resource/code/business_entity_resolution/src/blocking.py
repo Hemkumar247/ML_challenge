@@ -105,6 +105,7 @@ def create_candidates(
         CREATE TABLE {stats} AS
         SELECT country, kind, signature, count(*)::INTEGER AS document_frequency
         FROM {target_tokens}
+        WHERE kind <> 'pe'
         GROUP BY ALL
         """
     )
@@ -114,7 +115,7 @@ def create_candidates(
         CREATE TABLE {rare} AS
         SELECT t.rid, t.country, t.kind, t.signature, s.document_frequency,
                ln((n.country_count + 1.0) / (s.document_frequency + 0.5)) *
-               CASE t.kind WHEN 'pe' THEN 1.65 WHEN 'ne' THEN 1.20 WHEN 'ae' THEN 1.00
+               CASE t.kind WHEN 'ne' THEN 1.20 WHEN 'ae' THEN 1.00
                            WHEN 'ns' THEN 0.42 ELSE 0.32 END AS weight
         FROM {target_tokens} t
         JOIN {stats} s USING (country, kind, signature)
@@ -122,8 +123,13 @@ def create_candidates(
             SELECT country, count(*) AS country_count
             FROM {target_records} GROUP BY country
         ) n USING (country)
-        WHERE (t.kind IN ('ne', 'ae', 'pe') AND s.document_frequency <= {config.max_token_frequency})
+        WHERE (t.kind IN ('ne', 'ae') AND s.document_frequency <= {config.max_token_frequency})
            OR (right(t.kind, 1) = 's' AND s.document_frequency <= {config.max_shape_frequency})
+        UNION ALL
+        SELECT rid, country, kind, signature, 1::INTEGER AS document_frequency,
+               16.0::DOUBLE AS weight
+        FROM {target_tokens}
+        WHERE kind = 'pe'
         """
     )
     raw = f"{output_table}_raw_{source_number}"
