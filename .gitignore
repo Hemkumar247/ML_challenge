@@ -1,0 +1,16 @@
+**/.DS_Store
+__MACOSX/
+.venv/
+**/__pycache__/
+**/*.py[cod]
+
+# The supplied challenge data is about 2.5 GB and must be transferred separately.
+student_resource/dataset/train/*.tsv
+student_resource/dataset/test/*.tsv
+
+# Generated databases, models, predictions, reports, and final packages.
+student_resource/.work*/
+student_resource/output/*
+!student_resource/output/.gitkeep
+*.zip
+

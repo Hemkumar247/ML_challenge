@@ -1,0 +1,5 @@
+duckdb==1.4.0
+numpy==2.2.6
+pandas==2.2.2
+scikit-learn==1.6.1
+xgboost==2.1.4
